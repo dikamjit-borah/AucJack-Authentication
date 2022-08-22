@@ -9,7 +9,7 @@ const basicUtils = require('./utils/basic.utils');
 const constants = require('./utils/constants');
 const app = express()
 
-const port = process.env.PORT || 5050;
+const port = process.env.PORT || 5051;
 var corsOptions = {
   origin: `${process.env.HOST}:${port}`,
 };
