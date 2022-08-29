@@ -6,9 +6,11 @@ const express = require('express')
 const cors = require('cors');
 
 const basicUtils = require('./utils/basic.utils');
-const constants = require('./utils/constants'); 
+const seedStart = require('./helpers/seed.start');
 const app = express()
-const mongoDbConnection = require('./modules/mongodb/mongodb.connect')
+const mongoDbConnection = require('./modules/mongodb/mongodb.connect')()
+
+global.mongoDbConnection = mongoDbConnection
 
 const port = process.env.PORT || 5051;
 var corsOptions = {
@@ -20,6 +22,10 @@ app.use(express.json())
 
 app.listen(port, () => {
   basicUtils.logger(TAG, `AucJack-Authentication running on port ${port}`)
+  if (mongoDbConnection) {
+    seedStart.seedStart()
+  }
 });
+
 
 
