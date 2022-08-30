@@ -7,6 +7,7 @@ const cors = require('cors');
 
 const basicUtils = require('./utils/basic.utils');
 const seedStart = require('./helpers/seed.start');
+const routeAuthentication = require('./routes/route.authentication')
 const app = express()
 const mongoDbConnection = require('./modules/mongodb/mongodb.connect')()
 
@@ -19,6 +20,7 @@ var corsOptions = {
 
 app.use(cors())
 app.use(express.json())
+app.use(routeAuthentication)
 
 app.listen(port, () => {
   basicUtils.logger(TAG, `AucJack-Authentication running on port ${port}`)
