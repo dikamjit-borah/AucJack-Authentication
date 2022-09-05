@@ -1,5 +1,6 @@
 const { OK } = require("http-status")
 const httpStatus = require("http-status")
+const helperAuthentication = require("../helpers/helper.authentication")
 const serviceUser = require("../services/service.user")
 const basicUtils = require("../utils/basic.utils")
 const constants = require("../utils/constants")
@@ -16,10 +17,18 @@ module.exports = {
             userRole
         }
         try {
-            const result = await serviceUser.createUser(userData)
-            if (result) {
-                if (result.isCreated) return basicUtils.generateResponse(res, httpStatus.OK, constants.messages.SIGNUP_SUCCESS)
-                if (result.err) return basicUtils.generateResponse(res, httpStatus.INTERNAL_SERVER_ERROR, constants.messages.SIGNUP_ERR, { error: err })
+
+            const resultFindUser = await serviceUser.findUser(userPhone)
+            if (resultFindUser && resultFindUser.userFound) {
+                return basicUtils.generateResponse(res, httpStatus.BAD_REQUEST, constants.messages.SIGNUP_USER_EXIST)
+            }
+
+            const encodedPassword = await helperAuthentication.encodePassword(userPassword)
+
+            const resultCreateUser = await serviceUser.createUser({ ...userData, userPassword: encodedPassword })
+            if (resultCreateUser) {
+                if (resultCreateUser.isCreated) return basicUtils.generateResponse(res, httpStatus.OK, constants.messages.SIGNUP_SUCCESS)
+                if (resultCreateUser.err) return basicUtils.generateResponse(res, httpStatus.INTERNAL_SERVER_ERROR, constants.messages.SIGNUP_ERR, { error: resultCreateUser.err })
             }
             return basicUtils.generateResponse(res, httpStatus.INTERNAL_SERVER_ERROR, constants.messages.SIGNUP_FAIL)
         } catch (error) {
