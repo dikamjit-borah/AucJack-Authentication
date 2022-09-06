@@ -10,8 +10,13 @@ module.exports = {
         SIGNUP_SUCCESS: "User created successfully",
         SIGNUP_FAIL: "User could not be created",
         SIGNUP_ERR: "Error creating user",
-        SIGNUP_USER_EXIST: "User already exists",
-        SIGNUP_USER_NOT_EXIST: "User does not exist"
+
+        SIGNIN_SUCCESS: "Sign in successful",
+        SIGNIN_FAIL: "Invalid credentials. Please try again",
+        SIGNIN_ERR: "Error signing in",
+
+        USER_EXIST: "User already exists",
+        USER_NOT_EXIST: "User does not exist"
    
    
     }
