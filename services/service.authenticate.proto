@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+service serviceAuthenticate {
+    rpc authenticate (requestBody) returns (isAuthenticated) {}
+}
+
+message requestBody {
+    string userId =1;
+    string userToken = 1;
+}
+
+message isAuthenticated {
+    bool isAuthenticated = 0;
+}
